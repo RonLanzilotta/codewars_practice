@@ -1,9 +1,13 @@
-function toCamelCase(str){
-    for (let i = 0; i < str.length; i++) {
-      if (str[i] === "-" || str[i] === "_") {
-        str[i + 1].toUpperCase()
-        str.slice(0, str[i])
-      }
+function toCamelCase(str) {
+    let arr = str.split("")
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].match(/-|_/g)) {
+            arr.splice(i, 2, arr[i+1].toUpperCase())
+        }
     }
-    return str
-  }
+    return arr.join('')
+}
+
+
+
+console.log(toCamelCase("the_test-case"));
