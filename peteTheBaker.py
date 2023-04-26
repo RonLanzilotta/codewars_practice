@@ -1,7 +1,9 @@
 def cakes(recipe, available):
-    output = []
-    for k in recipe:
-        output.append(available[k] // recipe[k])
-    return min(output)
+        output = []
+        for k in recipe:
+            if k in available:
+                output.append(available[k] // recipe[k])
+            else: return 0
+        return min(output)
 
-cakes({"flour": 500, "sugar": 200, "eggs": 1}, {"flour": 1200, "sugar": 1200, "eggs": 5, "milk": 200})
+cakes({'cream': 200, 'flour': 300, 'sugar': 150, 'milk': 100, 'oil': 100}, {'sugar': 1700, 'flour': 20000, 'milk': 20000, 'oil': 30000, 'cream': 5000})
