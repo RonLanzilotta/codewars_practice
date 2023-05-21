@@ -47,3 +47,30 @@ function getParkStatus(record) {
     // } return 'CLOSE'
 
 }
+
+function canParkClose(record) {
+    // initialize a count variable to keep track of the number of people who entered the park
+    let count = 0;
+    // initialize a variable to keep track of the number of people who left the park
+    let leaveCount = 0;
+  
+    // iterate over each number in the record
+    for (let i = 0; i < record.length; i++) {
+      const num = record[i];
+      // if the number is negative, it represents a group leaving
+      if (num < 0) {
+        // if the number of people who left the park exceeds the number of people who entered, the record is invalid
+        if (leaveCount + Math.abs(num) > count) {
+          return 'OPEN';
+        }
+        // otherwise, increment the leaveCount variable
+        leaveCount += Math.abs(num);
+      } else {
+        // if the number is positive, it represents a group entering
+        count += num;
+      }
+    }
+    
+    // if the number of people who left the park equals the number of people who entered, the park can be closed
+    return count === leaveCount ? 'CLOSE' : 'OPEN';
+  }
