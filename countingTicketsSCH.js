@@ -61,6 +61,7 @@ function canParkClose(record) {
       if (num < 0) {
         // if the number of people who left the park exceeds the number of people who entered, the record is invalid
         if (leaveCount + Math.abs(num) > count) {
+          // because the record is invalid
           return 'OPEN';
         }
         // otherwise, increment the leaveCount variable
@@ -73,4 +74,21 @@ function canParkClose(record) {
     
     // if the number of people who left the park equals the number of people who entered, the park can be closed
     return count === leaveCount ? 'CLOSE' : 'OPEN';
+  }
+
+  function canParkClose(record) {
+    let stack = []
+
+    for (let i=0; i<record.length; i++) {
+      const num = record[i]
+      // check if num is positive
+      if (num < 0) {
+        // if it is a negative number in the first position of the record arr, the record is invalid
+        if (stack.length < 0) {
+          return 'OPEN'
+        }
+        // if the negative record is equal to the record at the top of the stack (last index of record arr)
+        if (Math.abs(num) === record.length - 1)
+      }
+    }
   }
