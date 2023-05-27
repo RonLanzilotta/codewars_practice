@@ -78,13 +78,12 @@ function canParkClose(record) {
 
   ///////////////////////////////////////////////////////////
   function canParkClose1(record) {
-  // EDGE CASE: the record needs at least 2 entries to return 'CLOSE'.
+      // EDGE CASE: the record needs at least 2 entries to return 'CLOSE'.
     if (record.length < 2) {return 'OPEN'}
-    // init arrays for groups entering and groups leaving
+      // init arrays for groups entering and groups leaving
     let count = []
     let leaveCount = []
-
-    // helper function to sort arr's
+      // helper function to sort arr's
     function sort(arr) {
       for (let i=1; i<arr.length; i++) {
         let p = 0
@@ -98,36 +97,57 @@ function canParkClose(record) {
       return arr
     }
 
-    // loop through record
+      // loop through record
     for (let i=0; i<record.length; i++) {
       const num = record[i]
-
-      // Check if num is negative. If negative, check to see if the corresponding group already entered the park. If so, push to leaveCount, else the record is invalid.
+        // Check if num is negative. If negative, check to see if the corresponding group already entered the park. If so, push to leaveCount, else the record is invalid.
       if (num < 0) {
+          // EDGE CASE: 
         if (count.includes(Math.abs(num))) {
           leaveCount.push(num)
         } else {
           return 'OPEN'
         }
       }
-      // if num is positive, add it to count arr
+        // if num is positive, add it to count arr
       if (num > 0) {count.push(num)}
-      
-      console.log(`PRE SORT -- count: ${count} leaveCount: ${leaveCount}`)
     }
-
+      // if the number of groups who have entered and left the park are equal, sort the arrays.
     if (count.length === leaveCount.length) {
       sort(count)
+        // reverse the leave count arr so that the arr ascends by absolute value
       sort(leaveCount).reverse()
-      console.log(`SORTED -- count: ${count} leaveCount: ${leaveCount}`)
+        // check each arr to see if each group that entered the park also left
       for (let i=0; i<count.length; i++) {
         if (count[i] != Math.abs(leaveCount[i])) {
           return 'OPEN'
         }
       }
     return 'CLOSE'
-  } return 'OPEN'
+  } 
+  return 'OPEN'
 }
 
-console.log(canParkClose1([4, 4, -3, -5]))
+// console.log(canParkClose1([1, 2, 3, 4, -3, -2, -1, -4]))
 
+function canParkClose2(record) {
+  if (record.length < 2) {return 'OPEN'}
+
+  let count = []
+  let leaveCount = []
+
+  for (let i=0; i<record.length; i++) {
+    const num = record[i]
+    if (num < 0) {
+      if (count.includes(Math.abs(num))) {
+        leaveCount.push(num)
+      } else {
+        return 'OPEN'
+      }
+    }
+    if (num > 0) {count.push(num)}
+  }
+  return count.length === leaveCount.length ? 'CLOSE' : 'OPEN'
+  }
+
+console.log(canParkClose2([1, 2, -3, 4, -2, 3, -1, -4]))
