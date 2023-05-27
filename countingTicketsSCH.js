@@ -84,18 +84,18 @@ function canParkClose(record) {
     let count = []
     let leaveCount = []
       // helper function to sort arr's
-    function sort(arr) {
-      for (let i=1; i<arr.length; i++) {
-        let p = 0
-        if (arr[i] < arr[i-1]) {
-           p = arr[i-1]
-           arr[i-1] = arr[i]
-           arr[i] = p
-           i=0
-        }
-      }
-      return arr
-    }
+    // function sort(arr) {
+    //   for (let i=1; i<arr.length; i++) {
+    //     let p = 0
+    //     if (arr[i] < arr[i-1]) {
+    //        p = arr[i-1]
+    //        arr[i-1] = arr[i]
+    //        arr[i] = p
+    //        i=0
+    //     }
+    //   }
+    //   return arr
+    // }
 
       // loop through record
     for (let i=0; i<record.length; i++) {
@@ -140,7 +140,8 @@ function canParkClose2(record) {
     const num = record[i]
     if (num < 0) {
       if (count.includes(Math.abs(num))) {
-        leaveCount.push(num)
+        let index = count.indexOf(Math.abs(num))
+        count.splice(index, 1)
       } else {
         return 'OPEN'
       }
@@ -150,4 +151,4 @@ function canParkClose2(record) {
   return count.length === leaveCount.length ? 'CLOSE' : 'OPEN'
   }
 
-console.log(canParkClose2([1, 2, -3, 4, -2, 3, -1, -4]))
+console.log(canParkClose2([4, -4, 4, -4]))

@@ -80,4 +80,4 @@ function findBalanceIndex(arr) {
     return balanceIndex;
   }
 
-findBalance([2, 4, 5, 1, -2, 7, 2, 1, 4])
+findBalance([2, 4, 5, 1, 7, 2, 1, 4])
