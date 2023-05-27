@@ -78,55 +78,56 @@ function canParkClose(record) {
 
   ///////////////////////////////////////////////////////////
   function canParkClose1(record) {
+  // EDGE CASE: the record needs at least 2 entries to return 'CLOSE'.
+    if (record.length < 2) {return 'OPEN'}
+    // init arrays for groups entering and groups leaving
     let count = []
     let leaveCount = []
 
     // helper function to sort arr's
     function sort(arr) {
       for (let i=1; i<arr.length; i++) {
-        let placeholder = 0
+        let p = 0
         if (arr[i] < arr[i-1]) {
-           placeholder = arr[i-1]
+           p = arr[i-1]
            arr[i-1] = arr[i]
-           arr[i] = placeholder
+           arr[i] = p
+           i=0
         }
       }
+      return arr
     }
 
     // loop through record
     for (let i=0; i<record.length; i++) {
       const num = record[i]
 
-      // if num is 0, remove it from record arr. Later we will compare the count + leaveCount arr's by length, so any 0's will break this logic.
-      if (num === 0) {
-        record.slice(i, 1)
-        i--
-      }
-
-      // check if number is negative
+      // Check if num is negative. If negative, check to see if the corresponding group already entered the park. If so, push to leaveCount, else the record is invalid.
       if (num < 0) {
-        // if it is a negative number in the first position of the record arr, the record is invalid
-        if (count.length === 0) {
+        if (count.includes(Math.abs(num))) {
+          leaveCount.push(num)
+        } else {
           return 'OPEN'
         }
-        // if the negative record is equal to the record at the top of the stack (last index of record arr), remove the group that's on top of the stack, else push that neg value to the 
-        Math.abs(num) === record[record.length - 1] ? count.pop() : leaveCount.push(num)
-      } else {
-        // if num is positive, add it to count arr
-        count.push(num)
       }
+      // if num is positive, add it to count arr
+      if (num > 0) {count.push(num)}
+      
+      console.log(`PRE SORT -- count: ${count} leaveCount: ${leaveCount}`)
     }
 
     if (count.length === leaveCount.length) {
       sort(count)
-      sort(leaveCount)
+      sort(leaveCount).reverse()
+      console.log(`SORTED -- count: ${count} leaveCount: ${leaveCount}`)
       for (let i=0; i<count.length; i++) {
-        if (count[i] != leaveCount[i]) {
+        if (count[i] != Math.abs(leaveCount[i])) {
           return 'OPEN'
         }
       }
     return 'CLOSE'
-  }
+  } return 'OPEN'
 }
 
-console.log(canParkClose([3, 4, 7, 16, -7, -16, 2, -2, -4, -3]))
+console.log(canParkClose1([4, 4, -3, -5]))
+
