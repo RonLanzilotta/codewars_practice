@@ -134,7 +134,6 @@ function canParkClose2(record) {
   if (record.length < 2) {return 'OPEN'}
 
   let count = []
-  let leaveCount = []
 
   for (let i=0; i<record.length; i++) {
     const num = record[i]
@@ -148,7 +147,7 @@ function canParkClose2(record) {
     }
     if (num > 0) {count.push(num)}
   }
-  return count.length === leaveCount.length ? 'CLOSE' : 'OPEN'
+  return !(count.length) ? 'CLOSE' : 'OPEN'
   }
 
-console.log(canParkClose2([4, -4, 4, -4]))
+console.log(canParkClose2([500, -500]))
