@@ -18,17 +18,26 @@ function reorderSchedule(schedule, availabilities) {
         }
     }
 
+    // This loop looks at the newly reordered array and checks each element's position against
+    // that name's given availability in the availability arr
     
+    // as we loop through the reordered arr...
     for (let i=0; i<reordered.length; i++) {
+        // look to the availabilities arr...
         for (let j=0; j<availabilities.length; j++) {
+            // for the given start and end availability...
             const [availName, start, end] = availabilities[j]
+            // but only if the name from reordered arr matches the name from the availabilities subarray.
             if (availabilities[j].includes(reordered[i])) {
+                // if the reordered name's index doesn't fall within the same name's availability...
                 if (!(start <= i+1 && i+1 < end)) {
-                    console.log(reordered[i])
-                    for (let k=0; k<reordered.length; k++) {
-                        console.log(reordered[k], reordered[i])
+                    // loop through reordered arr starting from the current element's index...
+                    for (let k=i; k<reordered.length; k++) {
+                        // until a new name is found.
                         if (reordered[k] != reordered[i]) {
+                            // replace the new name with the old one
                             reordered.splice(i, 1, reordered[k])
+                            // delete the new name from its original position to avoid duplicates
                             reordered.splice(k, 1)
                             break
                         }
@@ -40,7 +49,7 @@ function reorderSchedule(schedule, availabilities) {
     
     return reordered;
 }
-console.log(reorderSchedule(['Franco', 'Riley', 'Josh', 'Franco', 'Ron'], [['Ron', 2, 7], ['Kai', 2, 5], ['Jared', 3, 7], ['Matt', 1, 2], ['Raff', 5, 9], ['Dave', 1, 7], ['Ben', 3, 8], ['Franco', 2, 4], ['Riley', 1, 4], ['Josh', 3, 8]]))
+console.log(reorderSchedule(['Franco', 'Riley', 'Josh', 'Franco', 'Ron', 'Franco', 'Josh', 'Josh'], [['Ron', 2, 7], ['Kai', 2, 5], ['Jared', 3, 7], ['Matt', 1, 2], ['Raff', 5, 9], ['Dave', 1, 7], ['Ben', 3, 8], ['Franco', 2, 5], ['Riley', 1, 4], ['Josh', 3, 8]]))
 
 
 // ['Matt', 'Kai', 'Ben', 'Jared']
